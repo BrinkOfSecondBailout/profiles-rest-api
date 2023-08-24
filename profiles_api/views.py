@@ -47,8 +47,9 @@ class HelloApiView(APIView):
         return Response({'method': 'DELETE'})
 
 
-class HelloViewSet(viewsets.Viewset):
+class HelloViewSet(viewsets.ViewSet):
     """Test API ViewSet"""
+    serializer_class = serializers.HelloSerializer
 
     def list(self, request):
         """Return a hello message"""
@@ -58,3 +59,18 @@ class HelloViewSet(viewsets.Viewset):
             'Provides more functionality with less code'
         ]
         return Response({'message': 'Hello!', 'a_viewset': a_viewset})
+
+    def create(self, request):
+        """Create a new hello message"""
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = f'Hello {name}!'
+            return Response({'message': message})
+        else:
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUeST
+            )
+        
+    
