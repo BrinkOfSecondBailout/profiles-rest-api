@@ -70,7 +70,7 @@ class HelloViewSet(viewsets.ViewSet):
         else:
             return Response(
                 serializer.errors,
-                status=status.HTTP_400_BAD_REQUeST
+                status=status.HTTP_400_BAD_REQUEST
             )
 
     def retrieve(self, request, pk=None):
