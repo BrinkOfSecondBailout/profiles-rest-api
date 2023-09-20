@@ -19,3 +19,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 'style': {'input_type': 'password'}
             }
         }
+
+    def create(self, validated data):
+        """Create and return a new user"""
+        user = models.UserProfile.objects.create_user(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            password=validated_data['password']
+        )
+
+        return user
